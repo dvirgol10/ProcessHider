@@ -1,0 +1,7 @@
+﻿  main.c
+D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(27,9): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'PWSTR'
+D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(27,9): message : consider using '%ls' in the format string
+D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(27,9): message : consider using '%lls' in the format string
+D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(27,9): message : consider using '%Ls' in the format string
+D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(27,9): message : consider using '%ws' in the format string
+  ProcessList.vcxproj -> D:\Projects\ProcessHider\ProcessList\Debug\ProcessList.exe
