@@ -2,15 +2,18 @@
 #include <stdio.h>
 #include <winternl.h>
 
+#pragma comment(lib,"ntdll.lib")
 
-typedef NTSTATUS(__stdcall* NtQuerySystemInformationFuncType) (SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
+//typedef NTSTATUS(__stdcall* NtQuerySystemInformationFuncType) (SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
 
 
 int main() {
 
 	//load "ntdll.dll" to retrieve "NtQuerySystemInformation" function.
-	HMODULE hModule = LoadLibraryA("ntdll.dll");
-	NtQuerySystemInformationFuncType NtQuerySystemInformation = (NtQuerySystemInformationFuncType) GetProcAddress(hModule, "NtQuerySystemInformation");
+	//HMODULE hModule = LoadLibraryA("ntdll.dll");
+	LoadLibraryA("..\\..\\ProcessHiderDLL\\Debug\\ProcessHiderDLL.dll");
+
+	//NtQuerySystemInformationFuncType NtQuerySystemInformation = (NtQuerySystemInformationFuncType) GetProcAddress(hModule, "NtQuerySystemInformation");
 
 	const bufferSize = 2048 * 2048;
 	byte *processesBuffer = malloc(bufferSize);
