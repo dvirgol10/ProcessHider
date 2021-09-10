@@ -4,33 +4,31 @@
 
 #pragma comment(lib,"ntdll.lib")
 
-//typedef NTSTATUS(__stdcall* NtQuerySystemInformationFuncType) (SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
-
 
 int main() {
-
-	//load "ntdll.dll" to retrieve "NtQuerySystemInformation" function.
-	//HMODULE hModule = LoadLibraryA("ntdll.dll");
 	LoadLibraryA("..\\..\\ProcessHiderDLL\\Debug\\ProcessHiderDLL.dll");
 
-	//NtQuerySystemInformationFuncType NtQuerySystemInformation = (NtQuerySystemInformationFuncType) GetProcAddress(hModule, "NtQuerySystemInformation");
 
-	const bufferSize = 2048 * 2048;
-	byte *processesBuffer = malloc(bufferSize);
-	NTSTATUS status = NtQuerySystemInformation(SystemProcessInformation, (PVOID) processesBuffer, bufferSize, NULL);
+	const bufferSize = 1 << 22;
+	SYSTEM_PROCESS_INFORMATION*processesBuffer = (SYSTEM_PROCESS_INFORMATION*) malloc(bufferSize);
+	int returnLength = 0;
+	NTSTATUS status = NtQuerySystemInformation(SystemProcessInformation, (PVOID) processesBuffer, bufferSize, &returnLength);
 
 	if (!NT_SUCCESS(status)) {
-		printf("[!] Unable to get the system process information: %x\r\n", status);
+		printf("[!] Unable to get the system process information: %x.\r\n", status);
 		free(processesBuffer);
 		return 1;
 	}
 
-	SYSTEM_PROCESS_INFORMATION* startOfProcessesBuffer = (SYSTEM_PROCESS_INFORMATION*) processesBuffer;
+	printf("The actual size of the processes information requested is %d.\r\n", returnLength);
 
-	printf("Process name: %s\r\n", ((SYSTEM_PROCESS_INFORMATION*) processesBuffer)->ImageName.Buffer);
-	while (((SYSTEM_PROCESS_INFORMATION*)processesBuffer)->NextEntryOffset != 0) { //traverse the process list until we reach the end
-		processesBuffer += (((SYSTEM_PROCESS_INFORMATION*) processesBuffer)->NextEntryOffset);
-		printf("Process name: %ws\r\n", ((SYSTEM_PROCESS_INFORMATION*)processesBuffer)->ImageName.Buffer);
+	SYSTEM_PROCESS_INFORMATION* startOfProcessesBuffer = processesBuffer;
+
+
+	printf("Process name: %ws\r\n", processesBuffer->ImageName.Buffer);
+	while (processesBuffer->NextEntryOffset != 0) { //traverse the process list until we reach the end
+		processesBuffer = ((byte*) processesBuffer) + processesBuffer->NextEntryOffset;
+		printf("Process name: %ws\r\n", processesBuffer->ImageName.Buffer);
 	}
 	
 	free(startOfProcessesBuffer);

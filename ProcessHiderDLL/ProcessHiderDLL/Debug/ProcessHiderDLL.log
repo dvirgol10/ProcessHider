@@ -1,9 +1,9 @@
 ﻿  main.c
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(22,47): warning C4047: '!=': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(52,11): warning C4047: 'return': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(65,11): warning C4047: 'return': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(74,28): warning C4022: 'VirtualProtect': pointer mismatch for actual parameter 1
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(77,51): warning C4047: '=': 'NtQuerySystemInformationFuncType' differs in levels of indirection from 'DWORD'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(78,40): warning C4047: '=': 'DWORD' differs in levels of indirection from 'NtQuerySystemInformationFuncType'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(85): warning C4716: 'MaliciousNtQuerySystemInformation': must return a value
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(26,47): warning C4047: '!=': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(56,11): warning C4047: 'return': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(69,11): warning C4047: 'return': 'IMAGE_THUNK_DATA32 *' differs in levels of indirection from 'int'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(78,28): warning C4022: 'VirtualProtect': pointer mismatch for actual parameter 1
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(81,51): warning C4047: '=': 'NtQuerySystemInformationFuncType' differs in levels of indirection from 'DWORD'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(82,40): warning C4047: '=': 'DWORD' differs in levels of indirection from 'NtQuerySystemInformationFuncType'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(106,82): warning C4133: '=': incompatible types - from 'byte *' to 'SYSTEM_PROCESS_INFORMATION *'
   ProcessHiderDLL.vcxproj -> D:\Projects\ProcessHider\ProcessHiderDLL\Debug\ProcessHiderDLL.dll
