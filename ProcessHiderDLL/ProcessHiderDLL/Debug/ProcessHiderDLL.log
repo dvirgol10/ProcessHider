@@ -5,5 +5,7 @@ D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(69,11): warning 
 D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(78,28): warning C4022: 'VirtualProtect': pointer mismatch for actual parameter 1
 D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(81,51): warning C4047: '=': 'NtQuerySystemInformationFuncType' differs in levels of indirection from 'DWORD'
 D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(82,40): warning C4047: '=': 'DWORD' differs in levels of indirection from 'NtQuerySystemInformationFuncType'
-D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(106,82): warning C4133: '=': incompatible types - from 'byte *' to 'SYSTEM_PROCESS_INFORMATION *'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(109,82): warning C4133: '=': incompatible types - from 'byte *' to 'SYSTEM_PROCESS_INFORMATION *'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(115,181): warning C4047: '=': 'PWSTR' differs in levels of indirection from 'int'
+D:\Projects\ProcessHider\ProcessHiderDLL\ProcessHiderDLL\main.c(120,180): warning C4047: '=': 'PWSTR' differs in levels of indirection from 'int'
   ProcessHiderDLL.vcxproj -> D:\Projects\ProcessHider\ProcessHiderDLL\Debug\ProcessHiderDLL.dll

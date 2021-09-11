@@ -24,7 +24,6 @@ int main() {
 
 	SYSTEM_PROCESS_INFORMATION* startOfProcessesBuffer = processesBuffer;
 
-
 	printf("Process name: %ws\r\n", processesBuffer->ImageName.Buffer);
 	while (processesBuffer->NextEntryOffset != 0) { //traverse the process list until we reach the end
 		processesBuffer = ((byte*) processesBuffer) + processesBuffer->NextEntryOffset;
