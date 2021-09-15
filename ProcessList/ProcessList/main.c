@@ -8,7 +8,7 @@
 int main() {
 	//LoadLibraryA("..\\..\\ProcessHiderDLL\\Debug\\ProcessHiderDLL.dll");
 	
-	printf("Type \"Enter\" when you are ready\r\n"); //meanwhile we can inject ProcessHiderDLL.dll using ProcessHiderInjector.exe
+	printf("Press \"Enter\" when you are ready"); //meanwhile we can inject ProcessHiderDLL.dll using ProcessHiderInjector.exe
 	char c;
 	scanf_s("%c", &c);
 

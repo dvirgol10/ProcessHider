@@ -4,4 +4,5 @@ D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(13,10): message : placeh
 D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(13,10): message : the missing variadic argument 2 is required by format string '%c'
 D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(13,10): message : this argument is used as a buffer size
 D:\Projects\ProcessHider\ProcessList\ProcessList\main.c(32,81): warning C4133: '=': incompatible types - from 'byte *' to 'SYSTEM_PROCESS_INFORMATION *'
+  LINK : D:\Projects\ProcessHider\ProcessList\Debug\ProcessList.exe not found or not built by the last incremental link; performing full link
   ProcessList.vcxproj -> D:\Projects\ProcessHider\ProcessList\Debug\ProcessList.exe
