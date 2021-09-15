@@ -6,8 +6,11 @@
 
 
 int main() {
-	LoadLibraryA("..\\..\\ProcessHiderDLL\\Debug\\ProcessHiderDLL.dll");
-
+	//LoadLibraryA("..\\..\\ProcessHiderDLL\\Debug\\ProcessHiderDLL.dll");
+	
+	printf("Type \"Enter\" when you are ready\r\n"); //meanwhile we can inject ProcessHiderDLL.dll using ProcessHiderInjector.exe
+	char c;
+	scanf_s("%c", &c);
 
 	const bufferSize = 1 << 22;
 	SYSTEM_PROCESS_INFORMATION*processesBuffer = (SYSTEM_PROCESS_INFORMATION*) malloc(bufferSize);
